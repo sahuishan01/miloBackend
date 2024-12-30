@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: ./
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - DATABASE_URL=postgresql://sahu:sahu@db:5432/miloDB
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+      - /app/node_modules
+  db:
+    image: postgres:17.2
+    container_name: postgres_container
+    restart: always
+    environment:
+      POSTGRES_USER: sahu
+      POSTGRES_PASSWORD: sahu
+      POSTGRES_DB: miloDB
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
